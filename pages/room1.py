@@ -3,12 +3,13 @@ import streamlit as st
 st.set_page_config(page_title="🛋️ 방 세부 설정", layout="centered")
 st.title("🛋️ 방별 세부 스타일 설정")
 
-# 세션 상태 기본값 설정
 def init_room_session():
     defaults = {
         "current_room": 1,
         "rooms": 1,
-        "room_details": {}
+        "room_details": {},
+        "house_type": "단층",
+        "materials": ["Oak Planks"],
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -27,7 +28,7 @@ floor = st.selectbox("바닥 재질", ["나무", "돌", "카펫", "콘크리트"
 light = st.selectbox("조명 종류", ["램프", "천장등", "촛불", "Glowstone"])
 furniture = st.multiselect("주요 가구 선택", ["침대", "책상", "옷장", "소파", "컴퓨터 책상", "TV", "책장"])
 
-# 저장
+# 설정 저장
 if st.button("✅ 설정 저장"):
     st.session_state.room_details[room_name] = {
         "벽 색상": color,
@@ -37,7 +38,7 @@ if st.button("✅ 설정 저장"):
     }
     st.success(f"{room_name}의 세부 설정이 저장되었습니다!")
 
-# 다음 방으로 이동 또는 종료
+# 다음 방 이동 or 완료
 if room_index < st.session_state.rooms:
     if st.button("➡️ 다음 방으로 이동"):
         st.session_state.current_room += 1
