@@ -53,7 +53,7 @@ for i in range(5):
 | Concrete | 다양한 색상으로 외관 꾸미기에 유용 |
 | Glowstone | 조명 역할, 밤에 빛나는 블록 |
 
-![Minecraft Screenshot 1](https://postfiles.pstatic.net/20150218_141/ljaewoo04_1424255310398OVJnF_PNG/2015-02-18_03.03.13.png?type=w1)
+![Minecraft Screenshot 1](https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/f/fa/CreativeSearch.png/revision/latest?cb=20190814030410)
 ---
 
 ## 🏗️ 건축 팁
