@@ -1,85 +1,212 @@
 import streamlit as st
 
-st.set_page_config(page_title="📘 마인크래프트 블록쌓기 가이드", layout="centered")
-st.title("📘 마인크래프트 블록쌓기 기초 가이드")
+# 페이지 설정
+st.set_page_config(
+    page_title="SOOMTECH Minecraft EDU",
+    page_icon="🏅",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
+# CSS 스타일링
 st.markdown("""
-## 🧱 마인크래프트란?
+<style>
+    .main-header {
+        position: relative;
+        color: white;
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        height: 250px;
+    }
 
-**마인크래프트(Minecraft)**는 Mojang Studios에서 개발한 샌드박스 형식의 게임으로, 블록을 쌓아 나만의 세계를 만들 수 있는 게임입니다. 건축, 탐험, 생존, 창의적인 표현 등 다양한 활동이 가능하며, 교육적으로도 코딩, 설계, 문제해결력 향상에 많이 활용됩니다.
+    .main-header::before {
+        content: "";
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20130329_299%2Fkgk3377_13645414165827r1hD_PNG%2F2013-03-28_20.00.52.png&type=l340_165");
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+    }
 
-![Minecraft Screenshot 1](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150201_96%2Fchlrbgus33_1422780473330VLBMV_PNG%2F20150201_172757.png&type=sc960_832)
+    .main-header-content {
+        position: relative;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: inline-block;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        margin-top: 50px;
+    }
 
----
+    .menu-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        border: 3px solid #fbbf24;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-## 🔧 기본 조작 방법
+    .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
 
-- **이동**: W, A, S, D 키로 앞뒤좌우 이동
-- **점프**: 스페이스바
-- **블록 부수기**: 마우스 왼쪽 클릭
-- **블록 놓기**: 마우스 오른쪽 클릭
-- **블록 선택**: 1~9 숫자 키 또는 마우스 휠
-![Minecraft Screenshot 1](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAyMjhfMTIy%2FMDAxNzQwNzIwMTcwNTU1.FsMFST_REWr8Ju1LCY3KeLuXZKZ5UuSol-lOBrJ6G08g.d1uCTOZLC13kIdBMxLJkgJ4v5WOvi3y3yMm0s-aCS40g.PNG%2F%25B8%25B6%25C0%25CE%25C5%25A9%25B7%25A1%25C7%25C1%25C6%25AE_%25C3%25CA%25BA%25B8%25C0%25DA_%25C8%25B0%25BF%25EB%25B9%25FD_%25C4%25C4%25C7%25BB%25C5%25CD_%25BB%25E7%25BF%25EB%25BD%25C3_%25C1%25B6%25C0%25DB%25B9%25FD.png&type=sc960_832)
----
+    .menu-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
 
-## 🧱 기본 블록쌓기 예제
+    .course-info {
+        background: #fef3c7;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 5px solid #f59e0b;
+        margin: 2rem 0;
+    }
 
-아래는 마인크래프트 내에서 코딩으로 간단한 벽을 만드는 Python 예시입니다 (Minecraft Education Edition + Code Builder 기반):
+    .objectives-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        border: 3px solid #fbbf24;
+        margin: 2rem 0;
+    }
+</style>
+""", unsafe_allow_html=True)
 
-```python
-from minecraftstuff import MinecraftShape
-from mcpi.minecraft import Minecraft
-from mcpi import block
+# 헤더 배너
+st.markdown("""
+<div class="main-header">
+    <div class="main-header-content">
+        <h1>📘 마인크래프트 건축 수업</h1>
+        <p>도면을 보고 상상하고, 설계하고, 구현하기</p>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-mc = Minecraft.create()
+# 사이드바
+with st.sidebar:
+    st.markdown("### ⚙️ 설정")
+    api_key = st.text_input("API Key", type="password", placeholder="API 키를 입력하세요")
+    
+    st.markdown("### 📚 수업 정보")
+    st.info("""
+    **수업 주제**: 마인크래프트 건축 시뮬레이션  
+    **대상**: 중학교 2학년  
+    **교과**: 기술  
+    **차시**: 8차시
+    """)
 
-x, y, z = mc.player.getTilePos()
+# 수업 소개
+st.markdown("### 📖 수업 소개")
+st.markdown("이 웹앱은 중학교 2학년 기술 수업을 위한 창의적이고 혁신적인 학습 도구입니다.  \n도면 읽기부터 3D 건축물 설계까지 다양한 활동을 통해 **공간지각능력**과 **창의성**을 기를 수 있습니다.")
 
-# 가로 5칸, 높이 3칸의 벽 만들기
-for i in range(5):
-    for j in range(3):
-        mc.setBlock(x + i, y + j, z, block.STONE)
-```
+# 학습 메뉴
+st.markdown("## 🎯 학습 메뉴")
+col1, col2, col3, col4 = st.columns(4)
 
----
+with col1:
+    st.markdown("""
+    <div class="menu-card">
+        <div class="menu-icon">🧱</div>
+        <h3>정투상법</h3>
+        <p>도면 기반 퀴즈</p>
+        <small>정면도, 평면도, 우측면도 퀴즈</small>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("정투상법 시작", key="orthographic", use_container_width=True):
+        st.session_state.selected_menu = "정투상법"
 
-## 🪵 추천 건축 블록
+with col2:
+    st.markdown("""
+    <div class="menu-card">
+        <div class="menu-icon">🖥️</div>
+        <h3>설계사무실</h3>
+        <p>나라/ 도시 선택</p>
+        <small>건축양식 및 나라 특징 알아보기</small>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("일반모드 시작", key="general", use_container_width=True):
+        st.session_state.selected_menu = "일반모드"
 
-| 블록 이름 | 설명 |
-|-----------|------|
-| Oak Planks | 나무 재질, 초보자용 기본 블록 |
-| Stone Bricks | 내구도 강하고 깔끔한 벽체에 적합 |
-| Glass | 창문 및 투명 장식에 적합 |
-| Concrete | 다양한 색상으로 외관 꾸미기에 유용 |
-| Glowstone | 조명 역할, 밤에 빛나는 블록 |
+with col3:
+    st.markdown("""
+    <div class="menu-card">
+        <div class="menu-icon">🏛️</div>
+        <h3>설계사무실</h3>
+        <p>가상 건축 설계</p>
+        <small>창의적 건축물 설계</small>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("설계사무실 시작", key="design", use_container_width=True):
+        st.session_state.selected_menu = "설계사무실"
 
-![Minecraft Screenshot 1](https://static.wikia.nocookie.net/minecraft_ko_gamepedia/images/f/fa/CreativeSearch.png/revision/latest?cb=20190814030410)
----
+with col4:
+    st.markdown("""
+    <div class="menu-card">
+        <div class="menu-icon">💻</div>
+        <h3>블록코딩</h3>
+        <p>Minecraft 연동</p>
+        <small>Minecraft EDU와 연동된 코딩</small>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("블록코딩 시작", key="coding", use_container_width=True):
+        st.session_state.selected_menu = "블록코딩"
 
-## 🏗️ 건축 팁
+# 수업 목표
+st.markdown("""
+<div class="objectives-section">
+    <h3 style="text-align: center; margin-bottom: 1rem;">🎯 수업 목표 및 활동</h3>
+    <div style="display: flex; flex-direction: column; align-items: center; font-size: 1.1rem; line-height: 1.8;">
+        <div style="text-align: left; width: 80%;">
+            1. 도면(정면도, 평면도, 우측면도 등)을 기반으로 입체 구조를 시각적으로 유추할 수 있다.<br>
+            2. 선택한 국가와 도시의 건축양식, 기후, 랜드마크의 정보를 분석하여 설계에 반영할 수 있다.<br>
+            3. 자신만의 설계를 Minecraft EDU를 활용하여 건축할 수 있다.
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-- 기본 단위는 1블록 (1m³)
-- 문은 세로로 2블록 크기
-- 캐릭터 키는 약 1.8블록
-- 지붕은 사다리꼴 형태 또는 계단 블록 활용
-- 창문은 투명 블록으로 표현 가능
-- 레드스톤으로 자동문, 불빛 장치 등 구현 가능
 
----
 
-## 🖼️ 예시 건축 이미지
+# 수업 역량
+st.markdown("""
+<div class="course-info">
+    <h4>📋 관련 역량 및 성취기준</h4>
+    <ul>
+        <li><strong>기술적 문제 해결 역량</strong> - 도면 읽기와 공간 지각</li>
+        <li><strong>기술 시스템 이해</strong> - 건축 시스템의 구조와 원리</li>
+        <li><strong>의사소통 및 협업 능력</strong> - 팀 프로젝트를 통한 협업</li>
+    </ul>
+</div>
+""", unsafe_allow_html=True)
 
-![Minecraft House](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMDhfMjE1%2FMDAxNjc1ODQwNDI5ODc4.BeLR3se5L8qwKmrlwaGWxF_gflz4i4Wbmm0Xh5NH7c4g.e3V6tPcTvddcleOPH3ncQPGgoUd3oTJAFkIOKJ7KK-Qg.JPEG.mswjtg75%2F%25C0%25CC%25C5%25C2%25C0%25B1_%25282%2529.jpg&type=a340)
+# 차시별 계획
+with st.expander("📅 차시별 수업 계획 보기"):
+    st.markdown("""
+    | 차시 | 수업 내용 |
+    |------|-----------|
+    | 1차시 | 건축의 기능 및 공간적 요소 탐색 |
+    | 2차시 | 입체도형 추론 퀴즈 및 도시별 양식 탐색 |
+    | 3차시 | 가상 건축물 설계 |
+    | 4~7차시 | Minecraft EDU 구현 |
+    | 8차시 | 발표 및 평가 |
+    """)
 
-![Minecraft Interior](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20141113_21%2Fgodgo664_1415866391717BLnM3_PNG%2F2014-11-03_06.55.24.png&type=l340_165)
-
----
-
-## 📌 요약
-
-- 마인크래프트는 창의력 중심의 설계 교육에 유용
-- 기본 조작 및 블록 종류 이해가 핵심
-- Python 등 코딩 연계도 가능하며 교육용 활용도 높음
-
-👉 다음 단계: 🏠 design 페이지로 이동해서 건축설계를 시작하세요. 
-""")
+# 푸터
+st.markdown("---")
+st.markdown("""
+<div style="text-align: center; color: #6b7280; font-size: 0.9rem;">
+    <p>🏫 중학교 2학년 기술 수업 | 👥 8차시 프로그램 | 🎯 창의성과 문제해결능력 향상</p>
+</div>
+""", unsafe_allow_html=True)
